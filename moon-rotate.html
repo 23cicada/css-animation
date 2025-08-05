@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moon rotate</title>
+    <style>
+      .wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 16px);
+      }
+
+      .planet {
+        width: 80px;
+        height: 80px;
+        background: dodgerblue;
+        border-radius: 50%;
+      }
+
+      .moon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 20px;
+        height: 20px;
+        background: silver;
+        border-radius: 50%;
+      }
+
+      @keyframes orbit {
+        from {
+          transform: rotate(0deg) translateX(80px);
+        }
+        to {
+          transform: rotate(360deg) translateX(80px);
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .moon {
+          animation: orbit 6000ms linear infinite;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="planet"></div>
+      <div class="moon"></div>
+    </div>
+  </body>
+</html>

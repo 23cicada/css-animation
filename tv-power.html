@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV power</title>
+    <style>
+      .container {
+        border: 10px solid #423024;
+        display: inline-block;
+        background-color: #000000;
+        border-radius: 10px;
+        margin-bottom: 16px;;
+      }
+      .tv-image {
+        vertical-align: bottom;
+        will-change: transform;
+      }
+      .tv-image.off {
+        transition: transform 500ms;
+        transform: scale(0.5, 0);
+        filter: brightness(800%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img class="tv-image" src="./images/old-time.gif" />
+    </div>
+    <div class="radio-group">
+      <label> <input type="radio" name="state" value="on" checked /> On </label>
+      <label> <input type="radio" name="state" value="off" /> Off </label>
+    </div>
+
+    <script>
+      const tvImage = document.querySelector(".tv-image");
+      const radioGroup = document.querySelector(".radio-group");
+
+      radioGroup.addEventListener("change", (e) => {
+        tvImage.classList.toggle("off", e.target.value === "off");
+      });
+    </script>
+  </body>
+</html>
