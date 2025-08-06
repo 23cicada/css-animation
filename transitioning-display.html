@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transitioning display</title>
+    <style>
+      /* Supporting browsers transition display with a variation on the discrete animation type. */
+
+      /* 
+        When animating display from none to block (or another visible display value), 
+        the value will flip to block at 0% of the animation duration so it is visible throughout.
+        
+        When animating display from block (or another visible display value) to none, 
+        the value will flip to none at 100% of the animation duration so it is visible throughout.
+      */
+      div {
+        border: 2px solid red;
+
+        display: none;
+        opacity: 0;
+        /*
+          transition-behavior: allow-discrete;
+          This effectively enables display transitions
+        */
+        transition: opacity 1s, display 1s allow-discrete;
+      }
+      .showing {
+        display: block;
+        opacity: 1;
+      }
+
+      /*
+        By default, CSS transitions are not triggered on elements' first style updates when they first appear in the DOM, 
+        which includes when display changes from none to another state.
+      */
+      @starting-style {
+        .showing {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati error
+      optio quisquam asperiores vel expedita, ullam mollitia, dolor a unde, modi
+      voluptatum ea quis impedit totam eveniet voluptates officia vero.
+    </p>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quaerat
+      mollitia, quae ipsum, libero iste eius ex reprehenderit repellendus quidem
+      quam consectetur saepe! Animi sit, quasi impedit officiis nesciunt odit!
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, nemo
+      recusandae explicabo deserunt voluptate, debitis alias sapiente tempore
+      nostrum corrupti aut cupiditate eaque minima saepe omnis placeat quaerat
+      nihil deleniti.
+    </p>
+    <script>
+      const divElem = document.querySelector("div");
+      const htmlElem = document.querySelector(":root");
+
+      htmlElem.addEventListener("click", showHide);
+      document.addEventListener("keydown", showHide);
+
+      function showHide() {
+        divElem.classList.toggle("showing");
+      }
+    </script>
+  </body>
+</html>
