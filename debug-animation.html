@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug animation</title>
+    <style>
+      h1 {
+        display: inline-block;
+        margin: 0;
+      }
+      h1 > span {
+        opacity: 0;
+        transform: translateY(-100%);
+        transition: transform 500ms ease-in, opacity 0ms 500ms;
+        display: inline-block;
+        
+        position: relative;
+        z-index: 1;
+      }
+      h1:hover > span {
+        opacity: 1;
+        transform: translateY(0);
+        transition: transform 500ms ease-out;
+      }
+
+      ul > li {
+        position: relative;
+      }
+
+      .container {
+        margin: 0 auto;
+        height: 90vh;
+        background: rgb(131, 58, 180);
+        background: linear-gradient(
+          90deg,
+          rgba(131, 58, 180, 1) 0%,
+          rgba(253, 29, 29, 1) 50%,
+          rgba(252, 176, 69, 1) 100%
+        );
+        border-radius: 5px;
+        position: relative;
+      }
+
+      .box {
+        background-color: #000;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 5px;
+        box-shadow: 13px 10px 17px 0px rgba(0, 0, 0, 0.75);
+        animation: move 3s ease infinite;
+      }
+
+      @keyframes move {
+        50% {
+          /* bad performance */
+          /* top: calc(90vh - 160px); */
+          /* left: calc(90vw - 200px); */
+
+          /* better performance */
+          transform: translate(calc(90vw - 200px), calc(90vh - 160px));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Check whether an animation triggers layout -->
+    <!-- Performance => Rendering  -->
+
+    <!-- Check whether an animation triggers paint -->
+    <!-- Command+Shift+P（Mac）/ Ctrl+Shift+P（Windows） -->
+    <!-- Rendering tab => Paint Flashing -->
+
+    <div>
+      <h1>C<span>icada</span></h1>
+      <ul>
+        <li>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati,
+          doloribus! Nostrum reprehenderit, aliquam maxime officiis similique,
+          enim molestias molestiae ab minus unde et. Sit expedita odio ipsum
+          reiciendis pariatur officiis?
+        </li>
+        <li>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab neque
+          perferendis aperiam, debitis veritatis nesciunt explicabo eum, culpa
+          dolore, aut qui voluptatibus ex consectetur? Placeat distinctio ut vel
+          fugiat cum.
+        </li>
+        <li>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores
+          tenetur voluptas voluptatem possimus, expedita iusto, odit incidunt at
+          quia soluta, sapiente quas cumque delectus voluptatum doloremque
+          doloribus enim? Corporis, provident?
+        </li>
+      </ul>
+    </div>
+    <div class="container">
+      <div class="box"></div>
+    </div>
+  </body>
+</html>
