@@ -96,9 +96,17 @@
 
 ## 解决方案
 
+1. 
 ```css
 h1 > span {
   position: relative;
   z-index: 1;
+}
+```
+
+2. 在父元素中设置 `overflow: hidden;` 也可解决，猜测与 Block formatting context 有关
+```css
+h1 {
+  overflow: hidden;
 }
 ```

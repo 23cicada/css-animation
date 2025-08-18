@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <style>
+      :root {
+        --ant-motion-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+      .menu {
+        font-size: 14px;
+        width: 220px;
+        background-color: #001529;;
+        color: #fff;
+      }
+      .menu-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        padding: 12px;
+        margin: 4px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .menu-trigger-icon {
+        width: 10px;
+        transition: transform 300ms var(--ant-motion-ease-in-out);
+      }
+      .menu-trigger-icon::before,
+      .menu-trigger-icon::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 1.5px;
+        border-radius: 6px;
+        transition: transform 300ms var(--ant-motion-ease-in-out);
+        background-color: #fff;
+      }
+      .menu-trigger-icon::before {
+        transform: rotate(-45deg) translateX(2.5px);
+      }
+      .menu-trigger-icon::after {
+        transform: rotate(45deg) translateX(-2.5px);
+      }
+      .menu-open .menu-trigger-icon::before {
+        transform: rotate(45deg) translateX(2.5px);
+      }
+      .menu-open .menu-trigger-icon::after {
+        transform: rotate(-45deg) translateX(-2.5px);
+      }
+      .menu-open .menu-trigger-icon {
+        transform: translateY(-2px)
+      }
+      .menu-open .menu-trigger {
+        background-color: rgba(0,0,0,0.06);
+      }
+      
+      .menu-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        height: 0;
+        opacity: 0;
+        display: none;
+        overflow: hidden;
+        transition: height 300ms var(--ant-motion-ease-in-out), 
+        opacity 300ms var(--ant-motion-ease-in-out), 
+        display 300ms var(--ant-motion-ease-in-out) allow-discrete;
+        background-color: #000c17;
+      }
+
+      .menu-open .menu-list {
+        opacity: 1;
+        display: block;
+      }
+
+      @starting-style {
+        .menu-open .menu-list {
+          opacity: 0;
+        }
+      }
+
+      .menu-list > li {
+        transition: background-color 300ms;
+        margin: 4px;
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 12px;
+      }
+      .menu-list > li:hover {
+        background: #1677ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu">
+      <div class="menu-trigger">
+        Menu
+        <i class="menu-trigger-icon"></i>
+      </div>
+      <ul class="menu-list">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+        <li>Item 5</li>
+        <li>Item 6</li>
+        <li>Item 7</li>
+      </ul>
+    </div>
+    <script>
+      const menu = document.querySelector(".menu");
+      const menuTrigger = menu.querySelector(".menu-trigger");
+      const menuList = menu.querySelector(".menu-list");
+
+      menuTrigger.addEventListener("click", () => {
+        if (menu.classList.contains("menu-open")) {
+          menuList.style.height = 0
+          menu.classList.remove("menu-open");
+        } else {
+          menu.classList.add("menu-open");
+          menuList.style.height = menuList.scrollHeight + "px"
+        }
+      });
+    </script>
+  </body>
+</html>

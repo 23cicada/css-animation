@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Button Hover</title>
+    <style>
+      :root {
+        --ant-motion-ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+        --ant-motion-ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+        --ant-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+          0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+      }
+      body {
+        margin: 20px;
+      }
+      .open-button,
+      .close-button {
+        background: #2362eb;
+        border-radius: 4px;
+        padding: 8px 16px;
+        display: inline-block;
+        color: white;
+        cursor: default;
+        transition: transform 300ms ease-in-out;
+        /* will-change: transform; */
+      }
+      /* 
+        hover 过度开始时出现轻微的 glitch，可以使用 will-change: transform; 来修复此问题(Use sparingly!)。
+        This happens because of a hand-off between the computer's CPU and GPU.
+        https://www.joshwcomeau.com/animation/css-transitions/#hardware-acceleration-9
+      */
+      .open-button:hover {
+        transform: scale(1.1);
+      }
+      dialog {
+        outline: none;
+        border: none;
+        border-radius: 8px;
+        box-shadow: var(--ant-box-shadow);
+        margin-top: 100px;
+        text-align: center;
+        min-width: 520px;
+      }
+      dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.45);
+      }
+
+      .enter {
+        animation: zoomIn 300ms var(--ant-motion-ease-out-circ);
+      }
+      .enter::backdrop {
+        animation: fadeIn 200ms linear;
+      }
+
+      .leave {
+        animation: zoomOut 300ms var(--ant-motion-ease-in-out-circ);
+      }
+      .leave::backdrop {
+        animation: fadeOut 200ms linear;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes zoomIn {
+        from {
+          scale: 0.2;
+          opacity: 0;
+        }
+        to {
+          scale: 1;
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomOut {
+        from {
+          scale: 1;
+          opacity: 1;
+        }
+        to {
+          scale: 0.2;
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="open-button">Open Modal</div>
+
+    <dialog closedby="any">
+      <h1>Look at me!</h1>
+      <p>I'm a pop up dialog!</p >
+      <div class="close-button">Close Modal</div>
+    </dialog>
+
+    <script>
+      const dialog = document.querySelector("dialog");
+      const openButton = document.querySelector(".open-button");
+      const closeButton = document.querySelector(".close-button");
+
+      openButton.addEventListener("click", (event) => {
+        dialog.showModal();
+        const { pageX, pageY } = event;
+        const { left, top } = dialog.getBoundingClientRect();
+        // 注意：一定要在动画开始前获取 DOMRect 对象，否则动画会影响 DOMRect 的计算结果
+        dialog.style.transformOrigin = `${pageX - left}px ${pageY - top}px`;
+        dialog.classList.add("enter");
+      });
+
+      closeButton.addEventListener("click", () => {
+        dialog.classList.add("leave");
+      });
+
+      dialog.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        dialog.classList.add("leave");
+      });
+      
+      dialog.addEventListener("animationend", (event) => {
+        switch (event.animationName) {
+          case "zoomIn":
+            dialog.classList.remove("enter");
+            break;
+          case "zoomOut":
+            {
+              dialog.classList.remove("leave");
+              dialog.close();
+            }
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>
